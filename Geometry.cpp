@@ -7,10 +7,14 @@
 #include <vector>
 #include "Config_file.hpp"
 
+void Geometry::setProblemSize(int problem_size){
+    this->problem_size = problem_size;
+}
+
 datatype Geometry::euclidean_distance(datatype *vector, datatype *points)
 {
     double sum = 0;
-    for (int i = 0; i < config.problem_size; i++)
+    for (int i = 0; i < problem_size; i++)
     {
         double tmp = vector[i] - points[i];
         sum += (tmp * tmp);

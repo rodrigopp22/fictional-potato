@@ -8,10 +8,10 @@
 #include "Datatype.hpp"
 #include "Geometry.hpp"
 
-Detector::Detector(Config_file config_file, Geometry geometry, std::vector<datatype *> *self_dataset)
+Detector::Detector(Config_file config_file, std::vector<datatype *> *self_dataset)
 {
     this->config_file = config_file;
-    this->geometry = geometry;
+    geometry.setProblemSize(config_file.GetProblem_size());
     this->self_dataset = self_dataset;
 }
 

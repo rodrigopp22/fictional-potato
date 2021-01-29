@@ -1,5 +1,5 @@
 #ifndef CONFIG_FILE_HPP
-#define CONFIGS_FILE_HPP
+#define CONFIG_FILE_HPP
 #include <string>
 #include <vector>
 #include "Datatype.hpp"
@@ -18,37 +18,37 @@ private:
     datatype *search_space;
 
 public:
-    Config_file(std::string &name);
+    Config_file(std::string &);
     void read();
 
     std::string GetConfig_file() const;
-    void SetConfig_file(std::string config_file);
+    void SetConfig_file(std::string);
 
     int GetProblem_size() const;
-    void SetProblem_size(int problem_size);
+    void SetProblem_size(int);
 
     int GetMax_detectors() const;
-    void SetMax_detectors(int max_detectors);
+    void SetMax_detectors(int);
 
     datatype GetMin_dist() const;
-    void SetMin_dist(datatype min_dist);
+    void SetMin_dist(datatype);
 
     int GetAmount_of_proofs() const;
-    void SetAmount_of_proofs(int amount_of_proofs);
+    void SetAmount_of_proofs(int);
 
     std::string GetTraining_dataset_csv_file() const;
-    void SetTraining_dataset_csv_file(std::string training_dataset_csv_file);
+    void SetTraining_dataset_csv_file(std::string);
 
     std::string GetTesting_dataset_csv_file() const;
-    void SetTesting_dataset_csv_file(std::string testing_dataset_csv_file);
+    void SetTesting_dataset_csv_file(std::string);
 
     std::vector<int> GetExpected_detected() const;
-    void SetExpected_detected(std::vector<int> expected_detected);
+    void SetExpected_detected(std::vector<int>);
 
     datatype *GetSearch_space() const;
-    void SetSearch_space(datatype *search_space);
-    void SetSearch_spaceIndex(datatype value, int index);
-    datatype GetSearch_spaceIndex(int index) const;
+    void SetSearch_space(datatype *);
+    void SetSearch_spaceIndex(datatype, int);
+    datatype GetSearch_spaceIndex(int) const;
 };
 
 #endif

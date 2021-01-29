@@ -7,7 +7,7 @@
 #include "csv.hpp"
 #include "Datatype.hpp"
 
-Dataset::Dataset(std::string &name, int problem_size)
+Dataset::Dataset(std::string name, int problem_size)
 {
     filename = name;
     problem_size = problem_size;

@@ -5,9 +5,12 @@
 
 class Geometry
 {
+private:
+    int problem_size;
 public:
-    datatype euclidean_distance(datatype *vector, datatype *points);
-    bool matches(datatype *vector, std::vector<datatype *> *dataset, datatype min_dist);
+    void setProblemSize(int problem_size);
+    datatype euclidean_distance(datatype *, datatype *);
+    bool matches(datatype *, std::vector<datatype *> *, datatype);
 };
 
 #endif

@@ -11,7 +11,7 @@ private:
     int problem_size;
 
 public:
-    Dataset(std::string &name, int problem_size);
+    Dataset(std::string, int);
     std::vector<datatype *> *read_dataset();
 };
 

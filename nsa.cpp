@@ -13,14 +13,14 @@
 
 void init_search_space(Config_file &config_file)
 {
-    datatype search_space = new datatype[config_file.GetProblem_size() * 2];
+    datatype *search_space = new datatype[config_file.GetProblem_size() * 2];
     config_file.SetSearch_space(search_space);
     for (int i = 0; i < config_file.GetProblem_size(); i++)
     {
         //config.search_space[2 * i] = 0.0;
         config_file.SetSearch_spaceIndex(0.0, (2 * i));
         //config.search_space[2 * i + 1] = 1.0;
-        config_file.SetSearch_spaceIndex(1.0, (2 * i + 1);
+        config_file.SetSearch_spaceIndex(1.0, (2 * i + 1));
     }
 }
 
@@ -29,14 +29,14 @@ void run(Config_file &config_file)
     std::vector<result> general_results;
     init_search_space(config_file);
     //std::cout << "nome: " << config.training_dataset_csv_file << std::endl;
-    Dataset training_dataset(config_file.GetTraining_dataset_csv_file());
+    Dataset training_dataset(config_file.GetTraining_dataset_csv_file(), config_file.GetProblem_size());
     // Dataset training_dataset(config.training_dataset_csv_file);
-    Dataset testing_dataset(config_file.GetTesting_dataset_csv_file());
+    Dataset testing_dataset(config_file.GetTesting_dataset_csv_file(), config_file.GetProblem_size());
     // Dataset testing_dataset(config.testing_dataset_csv_file);
     std::vector<datatype *> *self_dataset_for_training = training_dataset.read_dataset();
     std::vector<datatype *> *generate_self_dataset_for_testing = testing_dataset.read_dataset();
-    Detector training_detectors(config_file, geometry, self_dataset_for_training);
-    Detector testing_detectors(config_file, geometry, generate_self_dataset_for_testing);
+    Detector training_detectors(config_file, self_dataset_for_training);
+    Detector testing_detectors(config_file, generate_self_dataset_for_testing);
     for (int proof = 0; proof < config_file.GetAmount_of_proofs(); proof++)
     {
         std::vector<datatype *> *detectors = training_detectors.generate_detectors();

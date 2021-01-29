@@ -17,8 +17,8 @@ private:
     Geometry geometry;
 
 public:
-    Detector(Config_file, Geometry, std::vector<datatype *>*);
-    void random_vector(datatype *vector);
+    Detector(Config_file, std::vector<datatype *>*);
+    void random_vector(datatype *);
     std::vector<datatype *> *generate_detectors();
     result apply_detectors();
 };
