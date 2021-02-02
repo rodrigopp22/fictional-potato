@@ -20,7 +20,7 @@ public:
     Detector(Config_file, std::vector<datatype *>*);
     void random_vector(datatype *);
     std::vector<datatype *> *generate_detectors();
-    result apply_detectors();
+    result apply_detectors(std::vector<datatype*> *);
 };
 
 #endif

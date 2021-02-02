@@ -13,8 +13,8 @@
 
 void init_search_space(Config_file &config_file)
 {
-    datatype *search_space = new datatype[config_file.GetProblem_size() * 2];
-    config_file.SetSearch_space(search_space);
+    config_file.SetSearch_space();
+    std::cout << *config_file.GetSearch_space() << std::endl;
     for (int i = 0; i < config_file.GetProblem_size(); i++)
     {
         //config.search_space[2 * i] = 0.0;
@@ -40,8 +40,9 @@ void run(Config_file &config_file)
     for (int proof = 0; proof < config_file.GetAmount_of_proofs(); proof++)
     {
         std::vector<datatype *> *detectors = training_detectors.generate_detectors();
-        general_results.push_back(testing_detectors.apply_detectors());
+        general_results.push_back(testing_detectors.apply_detectors(detectors));
     }
+    
     std::cout << "Detectors: " << config_file.GetMax_detectors() << std::endl;
     std::cout << "Min. distance: " << config_file.GetMin_dist() << std::endl;
     std::cout << "Runs: " << config_file.GetAmount_of_proofs() << std::endl;

@@ -53,7 +53,7 @@ std::vector<datatype *> *Detector::generate_detectors()
 
     return detectors;
 }
-result Detector::apply_detectors()
+result Detector::apply_detectors(std::vector<datatype*> *detectors)
 {
     std::set<int> *detected = new std::set<int>();
     int trial = 1;

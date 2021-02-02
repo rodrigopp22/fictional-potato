@@ -19,6 +19,7 @@ private:
 
 public:
     Config_file(std::string &);
+    Config_file();
     void read();
 
     std::string GetConfig_file() const;
@@ -46,7 +47,7 @@ public:
     void SetExpected_detected(std::vector<int>);
 
     datatype *GetSearch_space() const;
-    void SetSearch_space(datatype *);
+    void SetSearch_space();
     void SetSearch_spaceIndex(datatype, int);
     datatype GetSearch_spaceIndex(int) const;
 };

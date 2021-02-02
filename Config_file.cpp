@@ -5,6 +5,10 @@
 #include <set>
 #include "csv.hpp"
 
+Config_file::Config_file() : config_file(nullptr)
+{
+}
+
 Config_file::Config_file(std::string &name)
 {
     config_file = name;
@@ -15,7 +19,6 @@ void Config_file::read()
     csv::CSVFormat format;
     format.trim({' ', '\t'});
     format.variable_columns(csv::VariableColumnPolicy::KEEP);
-    std::cout << "Esse eh o config_file_name: " << config_file << std::endl;
     csv::CSVReader reader(config_file, format);
     csv::CSVRow row;
     // 1st row
@@ -107,9 +110,9 @@ datatype *Config_file::GetSearch_space() const
     return search_space;
 }
 
-void Config_file::SetSearch_space(datatype *search_space)
+void Config_file::SetSearch_space()
 {
-    search_space = search_space;
+    search_space = new datatype[problem_size * 2];
 }
 
 void Config_file::SetSearch_spaceIndex(datatype value, int index)
@@ -117,7 +120,8 @@ void Config_file::SetSearch_spaceIndex(datatype value, int index)
     search_space[index] = value;
 }
 
-datatype Config_file::GetSearch_spaceIndex(int index) const{
+datatype Config_file::GetSearch_spaceIndex(int index) const
+{
     return search_space[index];
 }
 
