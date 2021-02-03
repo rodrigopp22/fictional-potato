@@ -1,0 +1,8 @@
+.vscode
+.DS_Store
+nsa
+!nsa.*
+nsa.o
+nsa.exe
+!data
+!data/**
