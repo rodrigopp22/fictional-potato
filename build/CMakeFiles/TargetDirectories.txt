@@ -1,0 +1,3 @@
+/home/daniel/projetos/fictional-potato/build/CMakeFiles/rebuild_cache.dir
+/home/daniel/projetos/fictional-potato/build/CMakeFiles/edit_cache.dir
+/home/daniel/projetos/fictional-potato/build/CMakeFiles/nsa.dir

@@ -8,63 +8,57 @@
 #include "Dataset.hpp"
 #include "Detector.hpp"
 #include "Datatype.hpp"
-#include "result.hpp"
-#include "Config_file.hpp"
+#include "Result.hpp"
+#include "ConfigFile.hpp"
 
-void init_search_space(Config_file &config_file)
+void initSearchSpace(ConfigFile &configFile)
 {
-    config_file.SetSearch_space();
-    std::cout << *config_file.GetSearch_space() << std::endl;
-    for (int i = 0; i < config_file.GetProblem_size(); i++)
+    configFile.setSearchSpace();
+    for (int i = 0; i < configFile.getProblemSize(); i++)
     {
-        //config.search_space[2 * i] = 0.0;
-        config_file.SetSearch_spaceIndex(0.0, (2 * i));
-        //config.search_space[2 * i + 1] = 1.0;
-        config_file.SetSearch_spaceIndex(1.0, (2 * i + 1));
+        configFile.setSearchSpaceIndex(0.0, (2 * i));
+        configFile.setSearchSpaceIndex(1.0, (2 * i + 1));
     }
 }
 
-void run(Config_file &config_file)
+void run(ConfigFile &configFile)
 {
-    std::vector<result> general_results;
-    init_search_space(config_file);
-    //std::cout << "nome: " << config.training_dataset_csv_file << std::endl;
-    Dataset training_dataset(config_file.GetTraining_dataset_csv_file(), config_file.GetProblem_size());
-    // Dataset training_dataset(config.training_dataset_csv_file);
-    Dataset testing_dataset(config_file.GetTesting_dataset_csv_file(), config_file.GetProblem_size());
-    // Dataset testing_dataset(config.testing_dataset_csv_file);
-    std::vector<datatype *> *self_dataset_for_training = training_dataset.read_dataset();
-    std::vector<datatype *> *generate_self_dataset_for_testing = testing_dataset.read_dataset();
-    Detector training_detectors(config_file, self_dataset_for_training);
-    Detector testing_detectors(config_file, generate_self_dataset_for_testing);
-    for (int proof = 0; proof < config_file.GetAmount_of_proofs(); proof++)
+    std::vector<result> generalResults;
+    initSearchSpace(configFile);
+    Dataset trainingDataset(configFile.getTrainingDatasetCsvFile(), configFile.getProblemSize());
+    Dataset testingDataset(configFile.getTestingDatasetCsvFile(), configFile.getProblemSize());
+    std::vector<datatype *> *selfDatasetForTraining = trainingDataset.readDataset();
+    std::vector<datatype *> *generateSelfDatasetForTesting = testingDataset.readDataset();
+    Detector trainingDetectors(configFile, selfDatasetForTraining);
+    Detector testingDetectors(configFile, generateSelfDatasetForTesting);
+    for (int proof = 0; proof < configFile.getAmountOfProofs(); proof++)
     {
-        std::vector<datatype *> *detectors = training_detectors.generate_detectors();
-        general_results.push_back(testing_detectors.apply_detectors(detectors));
+        std::vector<datatype *> *detectors = trainingDetectors.generateDetectors();
+        generalResults.push_back(testingDetectors.applyDetectors(detectors));
     }
     
-    std::cout << "Detectors: " << config_file.GetMax_detectors() << std::endl;
-    std::cout << "Min. distance: " << config_file.GetMin_dist() << std::endl;
-    std::cout << "Runs: " << config_file.GetAmount_of_proofs() << std::endl;
-    datatype sum_DR = 0;
-    datatype sum_FAR = 0;
-    for (result &r : general_results)
+    std::cout << "Detectors: " << configFile.getMaxDetectors() << std::endl;
+    std::cout << "Min. distance: " << configFile.getMinDist() << std::endl;
+    std::cout << "Runs: " << configFile.getAmountOfProofs() << std::endl;
+    datatype sumDR = 0;
+    datatype sumFAR = 0;
+    for (result &r : generalResults)
     {
         std::cout << r.DR << ", " << r.FAR << std::endl;
-        sum_DR += r.DR;
-        sum_FAR += r.FAR;
+        sumDR += r.DR;
+        sumFAR += r.FAR;
     }
-    std::cout << "Average: " << sum_DR / config_file.GetAmount_of_proofs() << ", " << sum_FAR / config_file.GetAmount_of_proofs() << std::endl;
+    std::cout << "Average: " << sumDR / configFile.getAmountOfProofs() << ", " << sumFAR / configFile.getAmountOfProofs() << std::endl;
 }
 
 int main(int argc, char *argv[])
 {
     if (argc == 2)
     {
-        std::string config_file_name = argv[1];
-        Config_file config_file(config_file_name);
-        config_file.read();
-        run(config_file);
+        std::string configFileName = argv[1];
+        ConfigFile configFile(configFileName);
+        configFile.read();
+        run(configFile);
     }
     else
     {

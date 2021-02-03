@@ -5,16 +5,16 @@
 #include <set>
 #include <string>
 #include <vector>
-#include "Config_file.hpp"
+#include "ConfigFile.hpp"
 
-void Geometry::setProblemSize(int problem_size){
-    this->problem_size = problem_size;
+void Geometry::setProblemSize(int problemSize){
+    fProblemSize = problemSize;
 }
 
-datatype Geometry::euclidean_distance(datatype *vector, datatype *points)
+datatype Geometry::euclideanDistance(datatype *vector, datatype *points)
 {
     double sum = 0;
-    for (int i = 0; i < problem_size; i++)
+    for (int i = 0; i < fProblemSize; i++)
     {
         double tmp = vector[i] - points[i];
         sum += (tmp * tmp);
@@ -22,12 +22,12 @@ datatype Geometry::euclidean_distance(datatype *vector, datatype *points)
     return std::sqrt(sum);
 }
 
-bool Geometry::matches(datatype *vector, std::vector<datatype *> *dataset, datatype min_dist)
+bool Geometry::matches(datatype *vector, std::vector<datatype *> *dataset, datatype minDist)
 {
     for (auto it = dataset->cbegin(); it != dataset->cend(); it++)
     {
-        datatype dist = euclidean_distance(vector, *it);
-        if (dist <= min_dist)
+        datatype dist = euclideanDistance(vector, *it);
+        if (dist <= minDist)
         {
             return true;
         }

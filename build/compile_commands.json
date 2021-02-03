@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/daniel/projetos/fictional-potato/build",
+  "command": "/bin/g++-9     -g -DDEBUG -Wall -g   -std=gnu++11 -o CMakeFiles/nsa.dir/nsa.cpp.o -c /home/daniel/projetos/fictional-potato/nsa.cpp",
+  "file": "/home/daniel/projetos/fictional-potato/nsa.cpp"
+},
+{
+  "directory": "/home/daniel/projetos/fictional-potato/build",
+  "command": "/bin/g++-9     -g -DDEBUG -Wall -g   -std=gnu++11 -o CMakeFiles/nsa.dir/ConfigFile.cpp.o -c /home/daniel/projetos/fictional-potato/ConfigFile.cpp",
+  "file": "/home/daniel/projetos/fictional-potato/ConfigFile.cpp"
+},
+{
+  "directory": "/home/daniel/projetos/fictional-potato/build",
+  "command": "/bin/g++-9     -g -DDEBUG -Wall -g   -std=gnu++11 -o CMakeFiles/nsa.dir/Dataset.cpp.o -c /home/daniel/projetos/fictional-potato/Dataset.cpp",
+  "file": "/home/daniel/projetos/fictional-potato/Dataset.cpp"
+},
+{
+  "directory": "/home/daniel/projetos/fictional-potato/build",
+  "command": "/bin/g++-9     -g -DDEBUG -Wall -g   -std=gnu++11 -o CMakeFiles/nsa.dir/Detector.cpp.o -c /home/daniel/projetos/fictional-potato/Detector.cpp",
+  "file": "/home/daniel/projetos/fictional-potato/Detector.cpp"
+},
+{
+  "directory": "/home/daniel/projetos/fictional-potato/build",
+  "command": "/bin/g++-9     -g -DDEBUG -Wall -g   -std=gnu++11 -o CMakeFiles/nsa.dir/Geometry.cpp.o -c /home/daniel/projetos/fictional-potato/Geometry.cpp",
+  "file": "/home/daniel/projetos/fictional-potato/Geometry.cpp"
+}
+]

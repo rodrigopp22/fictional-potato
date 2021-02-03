@@ -6,10 +6,10 @@
 class Geometry
 {
 private:
-    int problem_size;
+    int fProblemSize;
 public:
-    void setProblemSize(int problem_size);
-    datatype euclidean_distance(datatype *, datatype *);
+    void setProblemSize(int problemSize);
+    datatype euclideanDistance(datatype *, datatype *);
     bool matches(datatype *, std::vector<datatype *> *, datatype);
 };
 

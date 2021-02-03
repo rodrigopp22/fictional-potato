@@ -7,12 +7,12 @@
 class Dataset
 {
 private:
-    std::string filename;
-    int problem_size;
+    std::string fFilename;
+    int fProblemSize;
 
 public:
     Dataset(std::string, int);
-    std::vector<datatype *> *read_dataset();
+    std::vector<datatype *> *readDataset();
 };
 
 #endif

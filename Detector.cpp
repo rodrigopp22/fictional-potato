@@ -4,47 +4,48 @@
 #include <cmath>
 #include <set>
 #include <string>
-#include "debug.hpp"
+#include "Debug.hpp"
 #include "Datatype.hpp"
 #include "Geometry.hpp"
 
-Detector::Detector(Config_file config_file, std::vector<datatype *> *self_dataset)
+Detector::Detector(ConfigFile configFile, std::vector<datatype *> *selfDataset)
 {
-    this->config_file = config_file;
-    geometry.setProblemSize(config_file.GetProblem_size());
-    this->self_dataset = self_dataset;
+    //fConfigFile = new ConfigFile();
+    fConfigFile = configFile;
+    geometry.setProblemSize(configFile.getProblemSize());
+    fSelfDataset = selfDataset;
 }
 
-void Detector::random_vector(datatype *vector)
+void Detector::randomVector(datatype *vector)
 {
-    for (int i = 0; i < config_file.GetProblem_size(); i++)
+    for (int i = 0; i < fConfigFile.getProblemSize(); i++)
     {
 #ifdef DEBUG
-        vector[i] = config_file.GetSearch_spaceIndex(2 * i) + ((config_file.GetSearch_spaceIndex(2 * i + 1) - config_file.GetSearch_spaceIndex(2 * i)) * Random());
+        vector[i] = fConfigFile.getSearchSpaceIndex(2 * i) + ((fConfigFile.getSearchSpaceIndex(2 * i + 1) - fConfigFile.getSearchSpaceIndex(2 * i)) * Random());
 #else
-        vector[i] = config_file.GetSearch_spaceIndex(2 * i) + ((config_file.GetSearch_spaceIndex(2 * i + 1) - config_file.GetSearch_spaceIndex(2 * i)) * uniform(engine));
+        vector[i] = fConfigFile.getSearchSpaceIndex(2 * i) + ((fConfigFile.getSearchSpaceIndex(2 * i + 1) - fConfigFile.getSearchSpaceIndex(2 * i)) * uniform(engine));
 #endif
     }
 }
 
-std::vector<datatype *> *Detector::generate_detectors()
+std::vector<datatype *> *Detector::generateDetectors()
 {
     std::vector<datatype *> *detectors = new std::vector<datatype *>();
     std::cout << "Generating detectors..." << std::endl;
-    datatype *detector = new datatype[config_file.GetProblem_size()];
+    datatype *detector = new datatype[fConfigFile.getProblemSize()];
     do
     {
-        random_vector(detector);
-        if (!geometry.matches(detector, self_dataset, config_file.GetMin_dist()))
+        randomVector(detector);
+        if (!geometry.matches(detector, fSelfDataset, fConfigFile.getMinDist()))
         {
             if (!geometry.matches(detector, detectors, 0.0))
             {
                 detectors->push_back(detector);
-                detector = new datatype[config_file.GetProblem_size()];
-                std::cout << detectors->size() << "/" << config_file.GetMax_detectors() << std::endl;
+                detector = new datatype[fConfigFile.getProblemSize()];
+                std::cout << detectors->size() << "/" << fConfigFile.getMaxDetectors() << std::endl;
             }
         }
-    } while (detectors->size() < config_file.GetMax_detectors());
+    } while (detectors->size() < fConfigFile.getMaxDetectors());
 
     if (detector != *detectors->cend())
     {
@@ -53,14 +54,14 @@ std::vector<datatype *> *Detector::generate_detectors()
 
     return detectors;
 }
-result Detector::apply_detectors(std::vector<datatype*> *detectors)
+result Detector::applyDetectors(std::vector<datatype *> *detectors)
 {
     std::set<int> *detected = new std::set<int>();
     int trial = 1;
-    for (auto it = self_dataset->cbegin(); it != self_dataset->cend(); it++)
+    for (auto it = fSelfDataset->cbegin(); it != fSelfDataset->cend(); it++)
     {
-        bool actual = geometry.matches(*it, detectors, config_file.GetMin_dist());
-        bool expected = geometry.matches(*it, self_dataset, config_file.GetMin_dist());
+        bool actual = geometry.matches(*it, detectors, fConfigFile.getMinDist());
+        bool expected = geometry.matches(*it, fSelfDataset, fConfigFile.getMinDist());
         if (actual == expected)
         {
             detected->insert(trial);
@@ -69,10 +70,11 @@ result Detector::apply_detectors(std::vector<datatype*> *detectors)
     }
 
     std::cout << "Expected to be detected: ";
-    for (auto it = config_file.GetExpected_detected().cbegin(); it != config_file.GetExpected_detected().cend();)
+    std::vector<int> configExpectedDetected = fConfigFile.getExpectedDetected();
+    for (auto it = configExpectedDetected.cbegin(); it != configExpectedDetected.cend();)
     {
         std::cout << *it;
-        if (++it != config_file.GetExpected_detected().cend())
+        if (++it != configExpectedDetected.cend())
             std::cout << ", ";
     }
     std::cout << std::endl;
@@ -86,24 +88,24 @@ result Detector::apply_detectors(std::vector<datatype*> *detectors)
     }
     std::cout << std::endl;
 
-    std::set<int> expected_detected(config_file.GetExpected_detected().begin(), config_file.GetExpected_detected().end());
-    datatype expected_detected_size = expected_detected.size();
+    std::set<int> expectedDetected(configExpectedDetected.begin(), configExpectedDetected.end());
+    datatype expectedDetectedSize = expectedDetected.size();
     for (auto it = detected->cbegin(); it != detected->cend(); it++)
     {
-        auto found = expected_detected.find(*it);
-        if (found != expected_detected.end())
+        auto found = expectedDetected.find(*it);
+        if (found != expectedDetected.end())
         {
-            expected_detected.erase(*it);
+            expectedDetected.erase(*it);
         }
     }
-    datatype new_expected_detected_size = expected_detected.size();
+    datatype new_expectedDetectedSize = expectedDetected.size();
 
     result result;
-    result.DR = (-(new_expected_detected_size - expected_detected_size) / expected_detected_size);
+    result.DR = (-(new_expectedDetectedSize - expectedDetectedSize) / expectedDetectedSize);
 
-    expected_detected.clear();
-    expected_detected.insert(config_file.GetExpected_detected().begin(), config_file.GetExpected_detected().end());
-    for (auto it = expected_detected.cbegin(); it != expected_detected.cend(); it++)
+    expectedDetected.clear();
+    expectedDetected.insert(configExpectedDetected.begin(), configExpectedDetected.end());
+    for (auto it = expectedDetected.cbegin(); it != expectedDetected.cend(); it++)
     {
         auto found = detected->find(*it);
         if (found != detected->end())
@@ -111,8 +113,8 @@ result Detector::apply_detectors(std::vector<datatype*> *detectors)
             detected->erase(*it);
         }
     }
-    datatype new_detected_size = detected->size();
-    result.FAR = (new_detected_size / expected_detected_size);
+    datatype newDetectedSize = detected->size();
+    result.FAR = (newDetectedSize / expectedDetectedSize);
 
     return result;
 }

@@ -3,24 +3,24 @@
 #include <vector>
 #include "Datatype.hpp"
 #include "Dataset.hpp"
-#include "result.hpp"
-#include "Config_file.hpp"
+#include "Result.hpp"
+#include "ConfigFile.hpp"
 #include "Geometry.hpp"
 
 class Detector
 {
 private:
-    std::vector<datatype *> *self_dataset;
-    int generation;
-    std::vector<datatype *> *detectors;
-    Config_file config_file;
+    std::vector<datatype *> *fSelfDataset;
+    int fGeneration;
+    std::vector<datatype *> *fDetectors;
+    ConfigFile fConfigFile;
     Geometry geometry;
 
 public:
-    Detector(Config_file, std::vector<datatype *>*);
-    void random_vector(datatype *);
-    std::vector<datatype *> *generate_detectors();
-    result apply_detectors(std::vector<datatype*> *);
+    Detector(ConfigFile, std::vector<datatype *>*);
+    void randomVector(datatype *);
+    std::vector<datatype *> *generateDetectors();
+    result applyDetectors(std::vector<datatype*> *);
 };
 
 #endif
